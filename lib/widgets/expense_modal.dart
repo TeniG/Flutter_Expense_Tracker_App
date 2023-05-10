@@ -11,6 +11,7 @@ class ExpenseModal extends StatefulWidget {
 
 class _ExpensesState extends State<ExpenseModal> {
   final _titleController = TextEditingController();
+  final _amountController = TextEditingController();
 
   // var _editedTitleValue = "";
 
@@ -19,9 +20,17 @@ class _ExpensesState extends State<ExpenseModal> {
   //   print("getEditedTitleValue : $_editedTitleValue");
   // }
 
-@override
+  void displyDatePicker() {
+    final now = DateTime.now();
+    final firstDate = DateTime(now.year-1,now.month,now.day);
+    showDatePicker(context: context, initialDate: now, firstDate: firstDate, lastDate: now);
+  }
+
+  @override
   void dispose() {
     _titleController.dispose();
+    _amountController.dispose();
+
     super.dispose();
   }
 
@@ -33,6 +42,7 @@ class _ExpensesState extends State<ExpenseModal> {
         children: [
           TextField(
             // onChanged: _saveEditedTitleValue,
+            maxLength: 50,
             controller: _titleController,
             decoration: const InputDecoration(
               label: Text("Title"),
@@ -40,9 +50,47 @@ class _ExpensesState extends State<ExpenseModal> {
           ),
           Row(
             children: [
+              Expanded(
+                child: TextField(
+                  keyboardType: TextInputType.number,
+                  controller: _amountController,
+                  decoration: const InputDecoration(
+                    prefixText: "\$ ",
+                    label: Text("Amount"),
+                  ),
+                ),
+              ),
+              const SizedBox(width: 16),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  crossAxisAlignment: CrossAxisAlignment.center, //vertical allignment
+                  children:  [
+                    const Text("Select Date"),
+                    IconButton(
+                      onPressed: () {
+                        displyDatePicker();
+                      },
+                      icon: const Icon(Icons.calendar_month),
+                    ),
+                  ],
+                ),
+              )
+            ],
+          ),
+          Row(
+            children: [
+              TextButton(
+                onPressed: () {
+                  // To close the modal
+                  Navigator.pop(context);
+                },
+                child: const Text("Cancel"),
+              ),
               ElevatedButton(
                 onPressed: () {
                   print("getEditedTitleValue : ${_titleController.text}");
+                  print("getEditedAMountValue : ${_amountController.text}");
                 },
                 child: const Text("Save Expense"),
               ),
