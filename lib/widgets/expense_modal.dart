@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_tracker_app/models/expense.dart';
 
 class ExpenseModal extends StatefulWidget {
   const ExpenseModal({super.key});
@@ -12,6 +13,8 @@ class ExpenseModal extends StatefulWidget {
 class _ExpensesState extends State<ExpenseModal> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
+  DateTime? _selectedDate;
+  Category _selectedCategory = Category.lesiure;
 
   // var _editedTitleValue = "";
 
@@ -20,10 +23,49 @@ class _ExpensesState extends State<ExpenseModal> {
   //   print("getEditedTitleValue : $_editedTitleValue");
   // }
 
-  void displyDatePicker() {
+  void displyDatePicker() async {
     final now = DateTime.now();
-    final firstDate = DateTime(now.year-1,now.month,now.day);
-    showDatePicker(context: context, initialDate: now, firstDate: firstDate, lastDate: now);
+    final firstDate = DateTime(now.year - 1, now.month, now.day);
+    final initialDate = (_selectedDate == null) ? now : _selectedDate;
+    //first method to get future values using .then method
+    // showDatePicker(
+    //         context: context,
+    //         initialDate: now,
+    //         firstDate: firstDate,
+    //         lastDate: now)
+    //     .then((value) => {
+    //       setState(() {
+    //         _selectedDate = value;
+    //       }),
+    //     });
+
+    //second method to get future values using Async-await
+    final pickedDate = await showDatePicker(
+        context: context,
+        initialDate: initialDate!,
+        firstDate: firstDate,
+        lastDate: now);
+
+    setState(() {
+      _selectedDate = pickedDate;
+    });
+  }
+
+  void saveExpense() {
+    var editedAmount = double.tryParse(_amountController
+        .text); //tryParse("hello") => null, tryParse("34")=>34.0
+
+    if (_titleController.text.trim().isEmpty ||
+        editedAmount == null ||
+        editedAmount <= 0 ||
+        _selectedDate == null) {
+      print("Error :All feilds are mandatory .Please check the errors");
+    } else {
+      print("TitleValue : ${_titleController.text}");
+      print("AmountValue : ${_amountController.text}");
+      print("CategoryValue : ${_selectedCategory.name}");
+      print("Date: ${formatter.format(_selectedDate!)}");
+    }
   }
 
   @override
@@ -37,7 +79,7 @@ class _ExpensesState extends State<ExpenseModal> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(16),
+      padding: const EdgeInsets.all(20),
       child: Column(
         children: [
           TextField(
@@ -60,13 +102,16 @@ class _ExpensesState extends State<ExpenseModal> {
                   ),
                 ),
               ),
-              const SizedBox(width: 16),
+              const SizedBox(width: 10),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.center, //vertical allignment
-                  children:  [
-                    const Text("Select Date"),
+                  crossAxisAlignment:
+                      CrossAxisAlignment.center, //vertical allignment
+                  children: [
+                    Text((_selectedDate == null)
+                        ? "Select Date"
+                        : formatter.format(_selectedDate!)),
                     IconButton(
                       onPressed: () {
                         displyDatePicker();
@@ -80,19 +125,47 @@ class _ExpensesState extends State<ExpenseModal> {
           ),
           Row(
             children: [
-              TextButton(
-                onPressed: () {
-                  // To close the modal
-                  Navigator.pop(context);
+              const SizedBox(width: 16),
+              DropdownButton(
+                value: _selectedCategory,
+                items: Category.values
+                    .map(
+                      (category) => DropdownMenuItem(
+                        value: category,
+                        child: Text(
+                          category.name.toUpperCase(),
+                        ),
+                      ),
+                    )
+                    .toList(),
+                onChanged: (value) {
+                  if (value == null) {
+                    return;
+                  }
+                  setState(() {
+                    _selectedCategory = value;
+                  });
                 },
-                child: const Text("Cancel"),
               ),
-              ElevatedButton(
-                onPressed: () {
-                  print("getEditedTitleValue : ${_titleController.text}");
-                  print("getEditedAMountValue : ${_amountController.text}");
-                },
-                child: const Text("Save Expense"),
+              Expanded(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    TextButton(
+                      onPressed: () {
+                        // To close the modal
+                        Navigator.pop(context);
+                      },
+                      child: const Text("Cancel"),
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        saveExpense();
+                      },
+                      child: const Text("Save Expense"),
+                    )
+                  ],
+                ),
               ),
             ],
           )
