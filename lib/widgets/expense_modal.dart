@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker_app/models/expense.dart';
 
 class ExpenseModal extends StatefulWidget {
-  const ExpenseModal({super.key});
+  const ExpenseModal({super.key, required this.onAddExpense});
+
+  final void Function(Expense) onAddExpense;
 
   @override
   State<StatefulWidget> createState() {
@@ -22,6 +24,11 @@ class _ExpensesState extends State<ExpenseModal> {
   //   _editedTitleValue = inputValue;
   //   print("getEditedTitleValue : $_editedTitleValue");
   // }
+
+  void closeModal() {
+    // To close the modal
+    Navigator.pop(context);
+  }
 
   void displyDatePicker() async {
     final now = DateTime.now();
@@ -60,12 +67,39 @@ class _ExpensesState extends State<ExpenseModal> {
         editedAmount <= 0 ||
         _selectedDate == null) {
       print("Error :All feilds are mandatory .Please check the errors");
-    } else {
-      print("TitleValue : ${_titleController.text}");
-      print("AmountValue : ${_amountController.text}");
-      print("CategoryValue : ${_selectedCategory.name}");
-      print("Date: ${formatter.format(_selectedDate!)}");
+      showDialog(
+          context: context,
+          builder: (ctx) => AlertDialog(
+                icon: const Icon(Icons.error, color: Colors.red),
+                title: const Text("Invalid Input"),
+                content: const Text(
+                    "All feilds are mandatory. Please make sure a valid title, amount, date and category are filled"),
+                actions: [
+                  TextButton(
+                      onPressed: () {
+                        Navigator.pop(ctx);
+                      },
+                      child: const Text("OK"))
+                ],
+              ));
+      return;
     }
+
+    print("TitleValue : ${_titleController.text}");
+    print("AmountValue : ${_amountController.text}");
+    print("CategoryValue : ${_selectedCategory.name}");
+    print("Date: ${formatter.format(_selectedDate!)}");
+    
+    var expense = Expense(
+        title: _titleController.text,
+        amount: editedAmount,
+        date: _selectedDate!,
+        category: _selectedCategory);
+
+//Important : to access Widget property from Stateclass.
+    widget.onAddExpense(expense);
+
+    closeModal();
   }
 
   @override
@@ -79,7 +113,7 @@ class _ExpensesState extends State<ExpenseModal> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
       child: Column(
         children: [
           TextField(
@@ -152,10 +186,7 @@ class _ExpensesState extends State<ExpenseModal> {
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
                     TextButton(
-                      onPressed: () {
-                        // To close the modal
-                        Navigator.pop(context);
-                      },
+                      onPressed: closeModal,
                       child: const Text("Cancel"),
                     ),
                     ElevatedButton(
