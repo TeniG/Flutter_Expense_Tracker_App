@@ -12,6 +12,7 @@ enum Category {
   travel,
   lesiure,
   work,
+  learning
 }
 
 const categoryIcons = {
@@ -19,6 +20,7 @@ const categoryIcons = {
   Category.travel: Icons.flight_takeoff,
   Category.lesiure: Icons.movie_creation_outlined,
   Category.work: Icons.work,
+  Category.learning:Icons.edit_document
 };
 
 class Expense {
