@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_expense_tracker_app/main.dart';
 import 'package:flutter_expense_tracker_app/models/expense.dart';
 
 class ExpenseModal extends StatefulWidget {
@@ -85,11 +86,6 @@ class _ExpensesState extends State<ExpenseModal> {
       return;
     }
 
-    print("TitleValue : ${_titleController.text}");
-    print("AmountValue : ${_amountController.text}");
-    print("CategoryValue : ${_selectedCategory.name}");
-    print("Date: ${formatter.format(_selectedDate!)}");
-    
     var expense = Expense(
         title: _titleController.text,
         amount: editedAmount,
@@ -113,39 +109,46 @@ class _ExpensesState extends State<ExpenseModal> {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 48, 16, 16),
+      padding: const EdgeInsets.fromLTRB(30, 56, 30, 30),
       child: Column(
         children: [
           TextField(
             // onChanged: _saveEditedTitleValue,
+            style: const TextStyle(fontSize: 24),
             maxLength: 50,
             controller: _titleController,
             decoration: const InputDecoration(
-              label: Text("Title"),
+              label: Text("Title", style: TextStyle(fontSize: 20)),
             ),
           ),
           Row(
             children: [
               Expanded(
                 child: TextField(
+                  style: const TextStyle(fontSize: 24),
                   keyboardType: TextInputType.number,
                   controller: _amountController,
                   decoration: const InputDecoration(
                     prefixText: "\$ ",
-                    label: Text("Amount"),
+                    label: Text("Amount", style: TextStyle(fontSize: 18)),
                   ),
                 ),
               ),
-              const SizedBox(width: 10),
+              const SizedBox(
+                width: 10,
+                height: 80,
+              ),
               Expanded(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   crossAxisAlignment:
                       CrossAxisAlignment.center, //vertical allignment
                   children: [
-                    Text((_selectedDate == null)
-                        ? "Select Date"
-                        : formatter.format(_selectedDate!)),
+                    Text(
+                        (_selectedDate == null)
+                            ? "Select Date"
+                            : formatter.format(_selectedDate!),
+                        style: const TextStyle(fontSize: 16)),
                     IconButton(
                       onPressed: () {
                         displyDatePicker();
@@ -157,49 +160,59 @@ class _ExpensesState extends State<ExpenseModal> {
               )
             ],
           ),
+          const SizedBox(height: 20),
           Row(
             children: [
-              const SizedBox(width: 16),
-              DropdownButton(
-                value: _selectedCategory,
-                items: Category.values
-                    .map(
-                      (category) => DropdownMenuItem(
-                        value: category,
-                        child: Text(
-                          category.name.toUpperCase(),
+              const Text("Select Category :", style: TextStyle(fontSize: 16)),
+              const SizedBox(width: 12),
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 10),
+                decoration: BoxDecoration(
+                    color:Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                    borderRadius: BorderRadius.circular(10)),
+                child: DropdownButton(
+                  borderRadius: BorderRadius.circular(10),
+                  value: _selectedCategory,
+                  items: Category.values
+                      .map(
+                        (category) => DropdownMenuItem(
+                          alignment: Alignment.center,
+                          value: category,
+                          child: Text(
+                            category.name.toUpperCase(),
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (value) {
-                  if (value == null) {
-                    return;
-                  }
-                  setState(() {
-                    _selectedCategory = value;
-                  });
-                },
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    TextButton(
-                      onPressed: closeModal,
-                      child: const Text("Cancel"),
-                    ),
-                    ElevatedButton(
-                      onPressed: () {
-                        saveExpense();
-                      },
-                      child: const Text("Save Expense"),
-                    )
-                  ],
+                      )
+                      .toList(),
+                  onChanged: (value) {
+                    if (value == null) {
+                      return;
+                    }
+                    setState(() {
+                      _selectedCategory = value;
+                    });
+                  },
                 ),
               ),
             ],
-          )
+          ),
+          const SizedBox(height: 40),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextButton(
+                onPressed: closeModal,
+                child: const Text("Cancel", style: TextStyle(fontSize: 16)),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  saveExpense();
+                },
+                child:
+                    const Text("Save Expense", style: TextStyle(fontSize: 16)),
+              )
+            ],
+          ),
         ],
       ),
     );
