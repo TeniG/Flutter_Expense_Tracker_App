@@ -9,6 +9,9 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+final isDarkMode =
+        MediaQuery.of(context).platformBrightness == Brightness.dark;
+
     return Card(
       child: Padding(
         padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
@@ -19,7 +22,7 @@ class ExpenseItem extends StatelessWidget {
                 style: Theme.of(context)
                     .textTheme
                     .titleLarge!
-                    .copyWith(color: kColorScheme.onPrimaryContainer)),
+                    .copyWith(color: (isDarkMode) ? kDarkColorScheme.onPrimaryContainer :kColorScheme.onPrimaryContainer)),
             const SizedBox(
               height: 4,
             ),
