@@ -9,7 +9,7 @@ class ExpenseItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-final isDarkMode =
+    final isDarkMode =
         MediaQuery.of(context).platformBrightness == Brightness.dark;
 
     return Card(
@@ -18,11 +18,13 @@ final isDarkMode =
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(expense.title,
-                style: Theme.of(context)
-                    .textTheme
-                    .titleLarge!
-                    .copyWith(color: (isDarkMode) ? kDarkColorScheme.onPrimaryContainer :kColorScheme.onPrimaryContainer)),
+            Text(
+              expense.title,
+              style: Theme.of(context).textTheme.titleLarge!.copyWith(
+                  color: (isDarkMode)
+                      ? kDarkColorScheme.onPrimaryContainer
+                      : kColorScheme.onPrimaryContainer),
+            ),
             const SizedBox(
               height: 4,
             ),

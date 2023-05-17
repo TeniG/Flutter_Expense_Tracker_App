@@ -90,11 +90,21 @@ class _ExpensesState extends State<Expenses> {
           IconButton(
             onPressed: _openAddExpenseModalOverlay,
             icon: const Icon(Icons.add),
+            color: Colors.white,
           ),
         ],
       ),
       body: Column(
         children: [
+          const SizedBox(height: 20),
+          Text(
+            "Expense Chart by Category",
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Theme.of(context).colorScheme.onSecondaryContainer,
+            ),
+          ),
           ChartSection(expenseList: _registeredExpenses),
           mainWidget,
         ],

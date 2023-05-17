@@ -64,8 +64,11 @@ class ChartSection extends StatelessWidget {
                 .map((category) => Expanded(
                       child: Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 4),
-                        child: Icon(
-                          categoryIcons[category],
+                        child: Column(
+                          children: [
+                            Icon(categoryIcons[category]),
+                            Text(category.name)
+                          ],
                         ),
                       ),
                     ))

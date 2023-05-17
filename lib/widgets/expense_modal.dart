@@ -114,7 +114,7 @@ class _ExpensesState extends State<ExpenseModal> {
         children: [
           TextField(
             // onChanged: _saveEditedTitleValue,
-            style: const TextStyle(fontSize: 24),
+            style: const TextStyle(fontSize: 20),
             maxLength: 50,
             controller: _titleController,
             decoration: const InputDecoration(
@@ -125,7 +125,7 @@ class _ExpensesState extends State<ExpenseModal> {
             children: [
               Expanded(
                 child: TextField(
-                  style: const TextStyle(fontSize: 24),
+                  style: const TextStyle(fontSize: 20),
                   keyboardType: TextInputType.number,
                   controller: _amountController,
                   decoration: const InputDecoration(
