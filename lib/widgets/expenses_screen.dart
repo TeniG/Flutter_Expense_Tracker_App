@@ -70,6 +70,9 @@ class _ExpensesState extends State<Expenses> {
 
   @override
   Widget build(BuildContext context) {
+    var width = MediaQuery.of(context).size.width;
+    var height = MediaQuery.of(context).size.height;
+
     Widget mainWidget = const Center(
       child: Text(
         "No Expense found. Start adding some!!",
@@ -94,21 +97,47 @@ class _ExpensesState extends State<Expenses> {
           ),
         ],
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 20),
-          Text(
-            "Expense Chart by Category",
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onSecondaryContainer,
+      body: (width < 600)
+          ? Column(
+              children: [
+                Column(children: [
+                  const SizedBox(height: 20),
+                  Text(
+                    "Expense Chart by Category",
+                    style: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Theme.of(context).colorScheme.onSecondaryContainer,
+                    ),
+                  ),
+                  ChartSection(expenseList: _registeredExpenses),
+                ]),
+                mainWidget,
+              ],
+            )
+          : Row(
+              children: [
+                Expanded(
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 20),
+                      Text(
+                        "Expense Chart by Category",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSecondaryContainer,
+                        ),
+                      ),
+                      ChartSection(expenseList: _registeredExpenses),
+                    ],
+                  ),
+                ),
+                mainWidget,
+              ],
             ),
-          ),
-          ChartSection(expenseList: _registeredExpenses),
-          mainWidget,
-        ],
-      ),
     );
   }
 }
