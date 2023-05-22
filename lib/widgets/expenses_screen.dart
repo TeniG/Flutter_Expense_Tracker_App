@@ -100,40 +100,14 @@ class _ExpensesState extends State<Expenses> {
       body: (width < 600)
           ? Column(
               children: [
-                Column(children: [
-                  const SizedBox(height: 20),
-                  Text(
-                    "Expense Chart by Category",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Theme.of(context).colorScheme.onSecondaryContainer,
-                    ),
-                  ),
-                  ChartSection(expenseList: _registeredExpenses),
-                ]),
+                ChartSection(expenseList: _registeredExpenses),
                 mainWidget,
               ],
             )
           : Row(
               children: [
                 Expanded(
-                  child: Column(
-                    children: [
-                      const SizedBox(height: 20),
-                      Text(
-                        "Expense Chart by Category",
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                          color: Theme.of(context)
-                              .colorScheme
-                              .onSecondaryContainer,
-                        ),
-                      ),
-                      ChartSection(expenseList: _registeredExpenses),
-                    ],
-                  ),
+                  child: ChartSection(expenseList: _registeredExpenses),
                 ),
                 mainWidget,
               ],
@@ -141,3 +115,59 @@ class _ExpensesState extends State<Expenses> {
     );
   }
 }
+
+
+
+//  return Scaffold(
+//       appBar: AppBar(
+//         title: const Text("Flutter Expense Tracker"),
+//         actions: [
+//           IconButton(
+//             onPressed: _openAddExpenseModalOverlay,
+//             icon: const Icon(Icons.add),
+//             color: Colors.white,
+//           ),
+//         ],
+//       ),
+//       body: (width < 600)
+//           ? Column(
+//               children: [
+//                 Column(children: [
+//                   const SizedBox(height: 20),
+//                   Text(
+//                     "Expense Chart by Category",
+//                     style: TextStyle(
+//                       fontSize: 20,
+//                       fontWeight: FontWeight.bold,
+//                       color: Theme.of(context).colorScheme.onSecondaryContainer,
+//                     ),
+//                   ),
+//                   ChartSection(expenseList: _registeredExpenses),
+//                 ]),
+//                 mainWidget,
+//               ],
+//             )
+//           : Row(
+//               children: [
+//                 Expanded(
+//                   child: Column(
+//                     children: [
+//                       const SizedBox(height: 20),
+//                       Text(
+//                         "Expense Chart by Category",
+//                         style: TextStyle(
+//                           fontSize: 20,
+//                           fontWeight: FontWeight.bold,
+//                           color: Theme.of(context)
+//                               .colorScheme
+//                               .onSecondaryContainer,
+//                         ),
+//                       ),
+//                       ChartSection(expenseList: _registeredExpenses),
+//                     ],
+//                   ),
+//                 ),
+//                 mainWidget,
+//               ],
+//             ),
+//     );

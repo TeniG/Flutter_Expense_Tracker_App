@@ -108,112 +108,119 @@ class _ExpensesState extends State<ExpenseModal> {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(30, 56, 30, 30),
-      child: Column(
-        children: [
-          TextField(
-            // onChanged: _saveEditedTitleValue,
-            style: const TextStyle(fontSize: 20),
-            maxLength: 50,
-            controller: _titleController,
-            decoration: const InputDecoration(
-              label: Text("Title", style: TextStyle(fontSize: 20)),
-            ),
-          ),
-          Row(
+  // to get the ui element height which is overlapped (i.e keyboard)
+
+    return SizedBox(
+      height: double.infinity, // to make modal to take full height in landscape
+      child: SingleChildScrollView(
+        child: Padding(
+          padding:  const EdgeInsets.fromLTRB(30, 56, 30, 30),
+          child: Column(
             children: [
-              Expanded(
-                child: TextField(
-                  style: const TextStyle(fontSize: 20),
-                  keyboardType: TextInputType.number,
-                  controller: _amountController,
-                  decoration: const InputDecoration(
-                    prefixText: "\$ ",
-                    label: Text("Amount", style: TextStyle(fontSize: 18)),
-                  ),
+              TextField(
+                // onChanged: _saveEditedTitleValue,
+                style: const TextStyle(fontSize: 20),
+                maxLength: 50,
+                controller: _titleController,
+                decoration: const InputDecoration(
+                  label: Text("Title", style: TextStyle(fontSize: 20)),
                 ),
               ),
-              const SizedBox(
-                width: 10,
-                height: 80,
-              ),
-              Expanded(
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment:
-                      CrossAxisAlignment.center, //vertical allignment
-                  children: [
-                    Text(
-                        (_selectedDate == null)
-                            ? "Select Date"
-                            : formatter.format(_selectedDate!),
-                        style: const TextStyle(fontSize: 16)),
-                    IconButton(
-                      onPressed: () {
-                        displyDatePicker();
-                      },
-                      icon: const Icon(Icons.calendar_month),
+              Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      style: const TextStyle(fontSize: 20),
+                      keyboardType: TextInputType.number,
+                      controller: _amountController,
+                      decoration: const InputDecoration(
+                        prefixText: "\$ ",
+                        label: Text("Amount", style: TextStyle(fontSize: 18)),
+                      ),
                     ),
-                  ],
-                ),
-              )
-            ],
-          ),
-          const SizedBox(height: 20),
-          Row(
-            children: [
-              const Text("Select Category :", style: TextStyle(fontSize: 16)),
-              const SizedBox(width: 12),
-              Container(
-                padding: const EdgeInsets.symmetric(horizontal: 10),
-                decoration: BoxDecoration(
-                    color:Theme.of(context).colorScheme.primary.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10)),
-                child: DropdownButton(
-                  borderRadius: BorderRadius.circular(10),
-                  value: _selectedCategory,
-                  items: Category.values
-                      .map(
-                        (category) => DropdownMenuItem(
-                          alignment: Alignment.center,
-                          value: category,
-                          child: Text(
-                            category.name.toUpperCase(),
-                          ),
+                  ),
+                  const SizedBox(
+                    width: 10,
+                    height: 80,
+                  ),
+                  Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.end,
+                      crossAxisAlignment:
+                          CrossAxisAlignment.center, //vertical allignment
+                      children: [
+                        Text(
+                            (_selectedDate == null)
+                                ? "Select Date"
+                                : formatter.format(_selectedDate!),
+                            style: const TextStyle(fontSize: 16)),
+                        IconButton(
+                          onPressed: () {
+                            displyDatePicker();
+                          },
+                          icon: const Icon(Icons.calendar_month),
                         ),
-                      )
-                      .toList(),
-                  onChanged: (value) {
-                    if (value == null) {
-                      return;
-                    }
-                    setState(() {
-                      _selectedCategory = value;
-                    });
-                  },
-                ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
+              const SizedBox(height: 20),
+              Row(
+                children: [
+                  const Text("Select Category :", style: TextStyle(fontSize: 16)),
+                  const SizedBox(width: 12),
+                  Container(
+                    padding: const EdgeInsets.symmetric(horizontal: 10),
+                    decoration: BoxDecoration(
+                        color:Theme.of(context).colorScheme.primary.withOpacity(0.2),
+                        borderRadius: BorderRadius.circular(10)),
+                    child: DropdownButton(
+                      borderRadius: BorderRadius.circular(10),
+                      value: _selectedCategory,
+                      items: Category.values
+                          .map(
+                            (category) => DropdownMenuItem(
+                              alignment: Alignment.center,
+                              value: category,
+                              child: Text(
+                                category.name.toUpperCase(),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                      onChanged: (value) {
+                        if (value == null) {
+                          return;
+                        }
+                        setState(() {
+                          _selectedCategory = value;
+                        });
+                      },
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 40),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  TextButton(
+                    onPressed: closeModal,
+                    child: const Text("Cancel", style: TextStyle(fontSize: 16)),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      saveExpense();
+                    },
+                    child:
+                        const Text("Save Expense", style: TextStyle(fontSize: 16)),
+                  )
+                ],
               ),
             ],
           ),
-          const SizedBox(height: 40),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              TextButton(
-                onPressed: closeModal,
-                child: const Text("Cancel", style: TextStyle(fontSize: 16)),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  saveExpense();
-                },
-                child:
-                    const Text("Save Expense", style: TextStyle(fontSize: 16)),
-              )
-            ],
-          ),
-        ],
+        ),
       ),
     );
   }
