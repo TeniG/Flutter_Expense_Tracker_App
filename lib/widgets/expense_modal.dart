@@ -109,12 +109,13 @@ class _ExpensesState extends State<ExpenseModal> {
   @override
   Widget build(BuildContext context) {
   // to get the ui element height which is overlapped (i.e keyboard)
+  var keyboradSpace = MediaQuery.of(context).viewInsets.bottom;
 
     return SizedBox(
       height: double.infinity, // to make modal to take full height in landscape
       child: SingleChildScrollView(
         child: Padding(
-          padding:  const EdgeInsets.fromLTRB(30, 56, 30, 30),
+          padding:  EdgeInsets.fromLTRB(30, 56, 30, keyboradSpace + 30),
           child: Column(
             children: [
               TextField(
