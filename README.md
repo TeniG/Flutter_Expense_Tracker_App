@@ -1,16 +1,57 @@
 # flutter_expense_tracker_app
 
-A new Flutter project.
+A new Flutter project which consist of both Stateful and Stateless Widget. Dark theme is also supported by this app. Landscape and Portrait mode is also implemented so that entire space is used.
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
+This app is divided into two sections.They are as follows
+1. Expense Screen
+    * It displays the chart of Expenses based on category and also the list of expenses.
+    * User can delete the expense by left-swiping the Expense Item.
+2. Add New Expense Screen
+    * It Opens the modal where the user can add the expense.
+    * Validation is added to this screen
 
-A few resources to get you started if this is your first Flutter project:
+Following are dart concepts and flutter widgets used in this project.
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## Dart Concepts:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+1. for in
+2. Enum
+3. Ternary operator
+4. Method accessed as property.
+5. Secondary Constructor.
+
+ ## Flutter Widgets:
+ 
+1. TextField
+2. Expanded
+3. DropDownButton
+4. FractionallySizedBox
+5. BoxDecoration
+6. ListView
+7. Dismissible
+8. DatePicker
+9. Modal
+10. Dialog
+11. IconButton
+12. Scaffold AppBar property
+13. SnackBar
+14. Padding
+15. Text
+16. Column
+17. Row
+
+## Additional Concepts:
+
+1. Theme (Dark and Light mode)
+2. Navigator
+3. User Input using TextEditingController and dispose method
+
+## Here is quick demo of the app:
+
+
+https://github.com/TeniG/Flutter_Expense_Tracker_App/assets/43024245/45670779-e9f0-460f-b5f5-4bd4190918b8
+
+
+
+
