@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_expense_tracker_app/models/expense.dart';
 import 'package:flutter_expense_tracker_app/widgets/chart/chart_section.dart';
+import 'package:flutter_expense_tracker_app/widgets/expense_modal_with_constraints.dart';
 import 'package:flutter_expense_tracker_app/widgets/expense_modal.dart';
 import 'package:flutter_expense_tracker_app/widgets/expenses_list/expense_list.dart';
 
@@ -61,11 +62,12 @@ class _ExpensesState extends State<Expenses> {
 
   void _openAddExpenseModalOverlay() {
     showModalBottomSheet(
-        useSafeArea: true,
+      useSafeArea: true,
         isScrollControlled: true,
         context: context,
         builder: (ctx) {
-          return ExpenseModal(onAddExpense: _addExpenseInList);
+          return ExpenseModalWithConstraints(onAddExpense: _addExpenseInList);
+          // return ExpenseModalCopy(onAddExpense: _addExpenseInList);
         });
   }
 
